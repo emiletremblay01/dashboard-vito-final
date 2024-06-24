@@ -1,4 +1,4 @@
-import { AddExperienceForm } from "./components/form-add-experience";
+import { AddExperienceForm } from "@/components/form-add-experience";
 
 export default function AddExperiencePage() {
   return (
