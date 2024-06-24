@@ -1,7 +1,6 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal, XCircle } from "lucide-react";
 import { useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,6 +14,11 @@ import {
 import { Experience } from "@prisma/client";
 import { toast } from "sonner";
 import { deleteExperience } from "@/actions/experience";
+import { useRouter } from "next/navigation";
+import {
+  Edit,
+  Trash,
+} from "lucide-react";
 export const columns: ColumnDef<Experience>[] = [
   {
     accessorKey: "title",
@@ -31,6 +35,7 @@ export const columns: ColumnDef<Experience>[] = [
 ];
 
 function Actions({ id }: { id: string }) {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const handleDelete = async () => {
@@ -44,6 +49,12 @@ function Actions({ id }: { id: string }) {
       });
     });
   };
+
+  const handleEdit = async () => {
+    router.push("/" + id);
+  };
+
+  
   return (
     <div className="flex gap-1">
       <Button
@@ -52,7 +63,15 @@ function Actions({ id }: { id: string }) {
         className="group h-fit rounded-full p-0"
         variant="ghost"
       >
-        <XCircle className="size-6 text-muted-foreground group-hover:text-red-400" />{" "}
+        <Edit className="size-6 text-muted-foreground group-hover:text-red-400" />{" "}
+      </Button>
+      <Button
+        onClick={handleDelete}
+        disabled={isPending}
+        className="group h-fit rounded-full p-0"
+        variant="ghost"
+      >
+        <Trash className="size-6 text-muted-foreground group-hover:text-red-400" />{" "}
       </Button>
     </div>
   );
