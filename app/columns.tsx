@@ -58,7 +58,7 @@ function Actions({ id }: { id: string }) {
   return (
     <div className="flex gap-1">
       <Button
-        onClick={handleDelete}
+        onClick={handleEdit}
         disabled={isPending}
         className="group h-fit rounded-full p-0"
         variant="ghost"
