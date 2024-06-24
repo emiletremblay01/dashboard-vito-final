@@ -31,16 +31,24 @@ import { experienceSchema } from "@/schemas";
 import { ExperienceCategory, ExperienceType } from "@prisma/client";
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
-export function AddExperienceForm({ initialData } : { initialData:   }) {
+import type { Experience } from "@prisma/client";
+
+export function AddExperienceForm({ initialData } : { initialData: Experience | null }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   // 1. Define your form.
   const form = useForm<z.infer<typeof experienceSchema>>({
     resolver: zodResolver(experienceSchema),
-    defaultValues: {
-      images: [],
-      competences: "",
-    },
+    defaultValues: initialData
+      ? {
+          ...initialData,
+          competences: initialData.competences.join(", "),
+          liensYoutube: initialData.liensYoutube[0],
+        }
+      : {
+        images: [],
+        competences: "",
+        },
   });
 
   // 2. Define a submit handler.
