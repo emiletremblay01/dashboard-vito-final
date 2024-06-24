@@ -30,8 +30,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { experienceSchema } from "@/schemas";
 import { ExperienceCategory, ExperienceType } from "@prisma/client";
 import { useTransition } from "react";
-
+import { useRouter } from "next/navigation";
 export function AddExperienceForm() {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   // 1. Define your form.
   const form = useForm<z.infer<typeof experienceSchema>>({
@@ -51,6 +52,7 @@ export function AddExperienceForm() {
           return;
         }
         toast(result.success);
+        router.push("/");
       });
     });
   }
