@@ -1,5 +1,5 @@
 import { AddExperienceForm } from "@/components/form-add-experience";
-
+import { getExperienceById } from "@/data/experience";
 export default async function EditExperiencePage({
   params,
 }: {
@@ -21,7 +21,7 @@ export default async function EditExperiencePage({
     <div className="container flex gap-6 p-2 pt-16">
       <div className="mx-auto w-full max-w-sm">
         <h2 className="text-2xl font-semibold">Ajouter une experience</h2>
-        <AddExperienceForm />
+        <AddExperienceForm initialData={experience} />
       </div>
     </div>
   );
