@@ -1,0 +1,38 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum ExperienceCategory {
+  postproduction
+  evenementiel
+  composition
+}
+
+enum ExperienceType {
+  professionelle
+  personnelle
+  scolaire
+}
+model Experience {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    thumbnailTitle String
+    thumbnailImage String
+    experienceCategory ExperienceCategory
+    experienceType ExperienceType
+    title String
+    description String
+    competences String[]
+    liensYoutube String[]
+    images Image[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+type Image {
+  url String
+}
