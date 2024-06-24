@@ -5,7 +5,7 @@ export default async function EditExperiencePage({
 }: {
   params: { experienceId: string; };
 }) {
-  const experience = await getExperienceById(experienceId);
+  const experience = await getExperienceById(params.experienceId);
   
   if (!experience) {
     return (
