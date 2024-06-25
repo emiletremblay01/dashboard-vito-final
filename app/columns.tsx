@@ -15,10 +15,7 @@ import { Experience } from "@prisma/client";
 import { toast } from "sonner";
 import { deleteExperience } from "@/actions/experience";
 import { useRouter } from "next/navigation";
-import {
-  Edit,
-  Trash,
-} from "lucide-react";
+import { Edit, Trash } from "lucide-react";
 export const columns: ColumnDef<Experience>[] = [
   {
     accessorKey: "title",
@@ -54,7 +51,6 @@ function Actions({ id }: { id: string }) {
     router.push("/" + id);
   };
 
-  
   return (
     <div className="flex gap-1">
       <Button
@@ -63,7 +59,7 @@ function Actions({ id }: { id: string }) {
         className="group h-fit rounded-full p-0"
         variant="ghost"
       >
-        <Edit className="size-6 text-muted-foreground group-hover:text-red-400" />{" "}
+        <Edit className="size-6 text-muted-foreground group-hover:text-primary" />{" "}
       </Button>
       <Button
         onClick={handleDelete}

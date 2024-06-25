@@ -24,7 +24,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { addExperience } from "@/actions/experience";
+import { addExperience, updateExperience } from "@/actions/experience";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { experienceSchema } from "@/schemas";
@@ -33,9 +33,14 @@ import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import type { Experience } from "@prisma/client";
 
-export function AddExperienceForm({ initialData } : { initialData?: Experience | null }) {
+export function AddExperienceForm({
+  initialData,
+}: {
+  initialData?: Experience | null;
+}) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof experienceSchema>>({
     resolver: zodResolver(experienceSchema),
@@ -46,15 +51,27 @@ export function AddExperienceForm({ initialData } : { initialData?: Experience |
           liensYoutube: initialData.liensYoutube[0],
         }
       : {
-        images: [],
-        competences: "",
+          images: [],
+          competences: "",
         },
   });
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof experienceSchema>) {
     startTransition(() => {
-      addExperience(values).then((result) => {
+      if (!initialData) {
+        addExperience(values).then((result) => {
+          if (result.error) {
+            toast(result.error);
+            return;
+          }
+          toast(result.success);
+          router.push("/");
+        });
+        return;
+      }
+
+      updateExperience(initialData.id, values).then((result) => {
         if (result.error) {
           toast(result.error);
           return;
@@ -283,7 +300,7 @@ export function AddExperienceForm({ initialData } : { initialData?: Experience |
         </Tabs>
 
         <Button type="submit" className="mt-4 w-full" disabled={isPending}>
-          Ajouter
+          {initialData ? "Sauvegarder" : "Ajouter"}
         </Button>
       </form>
     </Form>
