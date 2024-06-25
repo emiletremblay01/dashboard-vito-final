@@ -33,7 +33,7 @@ import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import type { Experience } from "@prisma/client";
 
-export function AddExperienceForm({ initialData } : { initialData: Experience | null }) {
+export function AddExperienceForm({ initialData } : { initialData?: Experience | null }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   // 1. Define your form.
