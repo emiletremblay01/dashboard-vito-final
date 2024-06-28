@@ -255,7 +255,7 @@ export function AddExperienceForm({
                     />
                   </FormControl>
                   <FormDescription>
-                    Ajoutez des images carrées pour un meilleur résultat.
+                    Ajoutez des images avec un ratio 9:16 pour un meilleur résultat.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
