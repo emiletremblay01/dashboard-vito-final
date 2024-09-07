@@ -2,11 +2,15 @@
 
 import * as z from "zod";
 import { experienceSchema } from "@/schemas";
-
+import { auth } from "@/actions/auth";
 import prismadb from "@/lib/prismadb";
 import { revalidatePath } from "next/cache";
 export const addExperience = async (data: z.infer<typeof experienceSchema>) => {
   try {
+    const isAuthenticated = await auth();
+    if (!isAuthenticated) {
+      return { error: "Unauthorized!" };
+    }
     const validatedFields = experienceSchema.safeParse(data);
     if (!validatedFields.success) {
       return { error: "Invalid Fields!" };
@@ -68,6 +72,10 @@ export const updateExperience = async (
   data: z.infer<typeof experienceSchema>,
 ) => {
   try {
+    const isAuthenticated = await auth();
+    if (!isAuthenticated) {
+      return { error: "Unauthorized!", status: 401 };
+    }
     const validatedFields = experienceSchema.safeParse(data);
     if (!validatedFields.success) {
       return { error: "Invalid Fields!" };
@@ -129,6 +137,10 @@ export const updateExperience = async (
 
 export const deleteExperience = async (id: string) => {
   try {
+    const isAuthenticated = await auth();
+    if (!isAuthenticated) {
+      return { error: "Unauthorized!", status: 401 };
+    }
     const result = await prismadb.experience.delete({
       where: {
         id,
