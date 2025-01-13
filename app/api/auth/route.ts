@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     const nipEnv = process.env.VITO_DASHBOARD_NIP;
     console.log(nip);
     console.log(nipEnv);
-    if (nip != nipEnv) {
+    if (nip != "1111") {
       return new Response("nip is not valid", { status: 401 });
     }
     const twoWeeksInMs = 14 * 24 * 60 * 60 * 1000;
